@@ -1,0 +1,8 @@
+@INCLUDE_PATH  = doxygen
+@INCLUDE = base.cfg
+PROJECT_NAME     = "Emakefun Temperature Sensor NL50"
+PROJECT_NUMBER   = 1.0
+ENABLED_SECTIONS = Chinese
+OUTPUT_LANGUAGE  = Chinese
+INPUT            = src \
+                   examples/read_temperature/read_temperature.ino
