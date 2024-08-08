@@ -10,16 +10,17 @@ namespace emakefun {
 
 namespace {
 #ifdef ARDUINO_ARCH_AVR
+uint8_t& g_reference_analog = analog_reference;
 // https://www.arduino.cc/reference/en/language/functions/analog-io/analogreference/
 #if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega168__)
 constexpr float kReferenceMillivolts = 1100.0;
-constexpr uint8_t kAnalogReference = INTERNAL;
+constexpr uint8_t kReferenceAnalog = INTERNAL;
 #elif defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega8__)
 constexpr float kReferenceMillivolts = 2560.0;
-constexpr uint8_t kAnalogReference = INTERNAL;
+constexpr uint8_t kReferenceAnalog = INTERNAL;
 #else
 constexpr float kReferenceMillivolts = 2560.0;
-constexpr uint8_t kAnalogReference = INTERNAL2V56;
+constexpr uint8_t kReferenceAnalog = INTERNAL2V56;
 #endif
 #endif
 }  // namespace
@@ -34,10 +35,10 @@ float TemperatureSensorNl50::Read() const {
 #if defined(ARDUINO_ARCH_ESP32) || defined(ARDUINO_ARCH_ESP32S3)
   const float millivolts = analogReadMilliVolts(pin_);
 #elif defined(ARDUINO_ARCH_AVR)
-  const uint8_t previous_analog_reference = analog_reference;
-  analog_reference = kAnalogReference;
+  const uint8_t previous_reference_analog = g_reference_analog;
+  g_reference_analog = kReferenceAnalog;
   const float millivolts = analogRead(pin_) * kReferenceMillivolts / 1023.0;
-  analog_reference = previous_analog_reference;
+  g_reference_analog = previous_reference_analog;
 #else
 #error "unsupported arch"
 #endif

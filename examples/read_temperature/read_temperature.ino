@@ -16,8 +16,7 @@ emakefun::TemperatureSensorNl50 g_nl50(kPin);
 
 void setup() {
   Serial.begin(115200);
-  Serial.println(String(F("temperature sensor nl50 lib version: ")) + emakefun::TemperatureSensorNl50::kVersionMajor + "." +
-                 emakefun::TemperatureSensorNl50::kVersionMinor + "." + emakefun::TemperatureSensorNl50::kVersionPatch);
+  Serial.println(String(F("temperature sensor NL50 lib version: ")) + emakefun::TemperatureSensorNl50::Version());
   g_nl50.Initialize();
   Serial.println(F("setup successful"));
 }
